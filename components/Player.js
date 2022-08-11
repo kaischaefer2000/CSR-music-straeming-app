@@ -6,12 +6,10 @@ import { currentTrackIdState } from '../atoms/songAtom';
 import { isPlayingState } from '../atoms/songAtom';
 import useSongInfo from '../hooks/useSongInfo';
 import {
-  HeartIcon,
   VolumeUpIcon as VolumeDownIcon,
 } from '@heroicons/react/outline';
 import {
   RewindIcon,
-  SwitchHorizontalIcon,
   FastForwardIcon,
   PauseIcon,
   PlayIcon,
@@ -22,11 +20,10 @@ import { debounce } from 'lodash';
 function Player() {
   const spotifyApi = useSpotify();
   const { data: session, status } = useSession();
+
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState);
-
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-
   const [volume, setVolume] = React.useState(50);
 
   const songInfo = useSongInfo();
@@ -68,6 +65,7 @@ function Player() {
     }
   }, [volume]);
 
+  // to prevent too many API calls we debounce the requests. So that the volume control has a certain delay
   const debouncedAdjustVolume = React.useCallback(
     debounce((volume) => {
       spotifyApi.setVolume(volume).catch((err) => {});

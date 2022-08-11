@@ -30,13 +30,13 @@ async function refreshAccessToken(token) {
 }
 
 export default NextAuth({
-  // configure spotify provider with credentials from spotify developers account
+  // configure the built-in spotify provider with credentials from spotify developers account
   providers: [
     SpotifyProvider({
       clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
       clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
 
-      // the login process will be initiated by sending the user to this URL.
+      // the login process will be initiated by sending the user to this URL (including the scopes)
       authorization: LOGIN_URL,
     }),
   ],
@@ -44,10 +44,6 @@ export default NextAuth({
   // a random string used to hash tokens
   secret: process.env.JWT_SECRET,
 
-  // specify page for custom log in
-  pages: {
-    signIn: '/login',
-  },
   callbacks: {
   
     // this callback is called whenever a JSON Web Token is created (i.e. at sign in) or updated (i.e whenever a session is accessed in the client). Its content is forwarded to the session callback, where you can control what should be returned to the client. Anything else will be kept from your front-end.
@@ -74,7 +70,7 @@ export default NextAuth({
     },
 
     // allocate the necessary token information to the user in a session.
-    // tokens are http only in order to be hidden. The client JavaScript cant read the it.
+    // tokens are http only in order to be hidden. The client JavaScript cant read it.
     async session({ session, token }) {
       session.user.accessToken = token.accessToken;
       session.user.refreshToken = token.refreshToken;

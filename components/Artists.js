@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import useSpotify from '../hooks/useSpotify';
-import { useSession } from 'next-auth/react';
 import Artist from './Artist';
 
 function Artists() {
   const spotifyApi = useSpotify();
   const [artists, setArtists] = useState([]);
-  const { data: session, status } = useSession();
 
   // fetch followed artists
   useEffect(() => {
