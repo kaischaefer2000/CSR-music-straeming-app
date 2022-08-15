@@ -5,9 +5,7 @@ import { useRecoilState } from 'recoil';
 import { currentTrackIdState } from '../atoms/songAtom';
 import { isPlayingState } from '../atoms/songAtom';
 import useSongInfo from '../hooks/useSongInfo';
-import {
-  VolumeUpIcon as VolumeDownIcon,
-} from '@heroicons/react/outline';
+import { VolumeUpIcon as VolumeDownIcon } from '@heroicons/react/outline';
 import {
   RewindIcon,
   FastForwardIcon,
@@ -16,6 +14,7 @@ import {
   VolumeUpIcon,
 } from '@heroicons/react/solid';
 import { debounce } from 'lodash';
+import Image from 'next/image';
 
 function Player() {
   const spotifyApi = useSpotify();
@@ -70,18 +69,22 @@ function Player() {
     debounce((volume) => {
       spotifyApi.setVolume(volume).catch((err) => {});
     }, 300),
-    []
+    [],
   );
 
   return (
     <div className="grid h-24 grid-cols-3 bg-gradient-to-b from-black to-gray-900 px-2 text-xs text-white md:px-8 md:text-base">
       {/* Left */}
       <div className="flex items-center space-x-4">
-        <img
-          className="hidden h-10 w-10 md:inline"
-          src={songInfo?.album.images?.[0]?.url}
-          alt=""
-        />
+        {songInfo?.album.images?.[0]?.url && (
+          <Image
+            width="40px"
+            height="40px"
+            className="hidden h-10 w-10 md:inline"
+            src={songInfo?.album?.images?.[0]?.url}
+            alt=""
+          />
+        )}
         <div>
           <h3>{songInfo?.name}</h3>
           <p>{songInfo?.artists?.[0]?.name}</p>
@@ -94,7 +97,6 @@ function Player() {
           onClick={() => spotifyApi.skipToPrevious()}
           className="button"
         />
-        
 
         {isPlaying ? (
           <PauseIcon onClick={handlePlayPause} className="button h-10 w-10" />
