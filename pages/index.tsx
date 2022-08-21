@@ -9,7 +9,8 @@ import Login from '../components/Login';
 const Home: NextPage = () => {
   const { data: session } = useSession();
 
-  // check if user is logged in
+  // If the User is logged in, render the webplayer. 
+  // Otherwise render the Login interface, to force him to log in.
   if (session) {
     return (
       <div className="h-screen overflow-hidden bg-black">
