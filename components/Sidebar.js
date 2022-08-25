@@ -7,8 +7,9 @@ import { siteState } from '../atoms/siteAtom';
 import { UserGroupIcon } from '@heroicons/react/solid';
 
 function Sidebar() {
+  // SpotifyWebApi object whith client credentials and tokens
   const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [playlists, setPlaylists] = useState([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
   const [site, setSite] = useRecoilState(siteState);

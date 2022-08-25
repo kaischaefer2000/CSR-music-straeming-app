@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { shuffle } from 'lodash';
 import { playlistIdState } from '../atoms/playlistAtom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { playlistState } from '../atoms/playlistAtom';
@@ -8,11 +7,13 @@ import Songs from '../components/Songs';
 import Image from 'next/image';
 
 function Playlist() {
-  const [playlist, setPlaylist] = useRecoilState(playlistState);
+  // SpotifyWebApi object whith client credentials and tokens
   const spotifyApi = useSpotify();
+  // Global state of currently selected playlist id. This id is used to fetch the corresponding data from the API
   const playlistId = useRecoilValue(playlistIdState);
-
-  // get playlist data
+  // Playlist data that comes from the Spotify API
+  const [playlist, setPlaylist] = useRecoilState(playlistState);
+  // Get playlist data on the client
   useEffect(() => {
     spotifyApi
       .getPlaylist(playlistId)
@@ -49,4 +50,4 @@ function Playlist() {
   );
 }
 
-export default Playlist
+export default Playlist;

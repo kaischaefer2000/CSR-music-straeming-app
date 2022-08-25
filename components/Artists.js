@@ -5,23 +5,20 @@ import Artist from './Artist';
 function Artists() {
   const spotifyApi = useSpotify();
   const [artists, setArtists] = useState([]);
-
-  // fetch followed artists
+  // Fetch followed artists from Spotify API
   useEffect(() => {
     const fetchArtists = async () => {
       const artistsData = await fetch(
         `https://api.spotify.com/v1/me/following?type=artist`,
         {
           headers: {
-            // pass access token in order to be authorized to fetch the artists
+            // Pass access token in order to be authorized to fetch the artists
             Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
           },
         },
       ).then((res) => res.json());
-
       setArtists(artistsData.artists.items);
     };
-
     fetchArtists();
   }, [spotifyApi]);
 
